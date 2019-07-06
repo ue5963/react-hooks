@@ -25,21 +25,24 @@ function App(props) {
 
   const removeAllEvent = e => {
     e.preventDefault()
+
+    const result = window.confirm('Do you remove all event')
+    if (!result) {
+      return
+    }
+
     dispatch({
       type: 'DELETE_ALL_EVENT',
     })
   }
 
   const changeTitle = title => {
-    console.log(title)
     setState({ ..._state, title })
   }
 
   const changeBody = (body) => {
     setState({ ..._state, body })
   }
-
-  console.log({ state })
 
   return (
     <div className="container-fluid">
@@ -55,8 +58,8 @@ function App(props) {
           <input className='form-control' id='formEventBody' value={body} onChange={e => changeBody(e.target.value)} />
         </div>
 
-        <button className='btn btn-primary' onClick={addEvent}>イベント作成</button>
-        <button className='btn btn-danger' onClick={removeAllEvent}>すべてのイベント削除</button>
+        <button className='btn btn-primary' onClick={addEvent} disabled={!title || !body}>イベント作成</button>
+        <button className='btn btn-danger' onClick={removeAllEvent} disabled={state.length === 0}>すべてのイベント削除</button>
       </form>
 
       <h4>イベント一覧</h4>
@@ -66,10 +69,11 @@ function App(props) {
             <th>ID</th>
             <th>Title</th>
             <th>Body</th>
+            <th />
           </tr>
         </thead>
         <tbody>
-        { state.map(item => <Event item={item} dispatch={dispatch} />)}
+        { state.map(item => <Event key={item.id} item={item} dispatch={dispatch} />)}
         </tbody>
       </table>
     </div>

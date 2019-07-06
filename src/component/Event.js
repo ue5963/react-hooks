@@ -4,6 +4,12 @@ const Event = ({ item, dispatch }) => {
 
   const removeEvent = (e, id) => {
     e.preventDefault()
+
+    const result = window.confirm(`Do you remove event id: ${id}`)
+    if (!result) {
+      return
+    }
+
     dispatch({
       type: 'DELETE_EVENT',
       id
@@ -11,7 +17,7 @@ const Event = ({ item, dispatch }) => {
   }
 
   return (
-    <tr key={item.id}>
+    <tr>
       <td>{item.id}</td>
       <td>{item.title}</td>
       <td>{item.body}</td>
