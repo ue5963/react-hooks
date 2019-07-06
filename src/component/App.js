@@ -1,23 +1,61 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useReducer } from 'react'
+import reducer from '../reducers'
 
-function App() {
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+function App(props) {
+  const [state, dispatch] = useReducer(reducer, [])
+
+  const [_state, setState] = useState(props)
+  const {title, body} = _state
+
+   const addEvent = e => {
+     e.preventDefault()
+
+      dispatch({
+        type: 'CREATE_EVENT',
+        title,
+        body,
+      })
+
+     // Clear input title, body
+     setState(props)
+   }
+
+  const removeAllEvent = e => {
+    e.preventDefault()
+    dispatch({
+      type: 'DELETE_ALL_EVENT',
+    })
+  }
+
+  const changeTitle = title => {
+    console.log(title)
+    setState({ ..._state, title })
+  }
+
+  const changeBody = (body) => {
+    setState({ ..._state, body })
+  }
+
+  console.log({ state })
+
   return (
     <div className="container-fluid">
       <h4>イベント作成</h4>
       <form>
         <div className='form-group'>
-          <label htmlFor='formEventTitle'>タイトル</label>
-          <input className='form-control' id='formEventTitle' />
+          <label htmlFor='formEventTitle'>Title</label>
+          <input className='form-control' id='formEventTitle' value={title} onChange={e => changeTitle(e.target.value)} />
         </div>
 
         <div className='form-group'>
-          <label htmlFor='formEventBody'>ボディー</label>
-          <input className='form-control' id='formEventBody' />
+          <label htmlFor='formEventBody'>Body</label>
+          <input className='form-control' id='formEventBody' value={body} onChange={e => changeBody(e.target.value)} />
         </div>
 
-        <button className='btn btn-primary'>イベント作成</button>
-        <button className='btn btn-danger'>すべてのイベント削除</button>
+        <button className='btn btn-primary' onClick={addEvent}>イベント作成</button>
+        <button className='btn btn-danger' onClick={removeAllEvent}>すべてのイベント削除</button>
       </form>
 
       <h4>イベント一覧</h4>
@@ -39,6 +77,11 @@ function App() {
       </table>
     </div>
   )
+}
+
+App.defaultProps = {
+  title: '',
+  body: '',
 }
 
 export default App
