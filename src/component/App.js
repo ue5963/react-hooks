@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from 'react'
 import reducer from '../reducers'
+import Event from './Event'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -68,11 +69,7 @@ function App(props) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-
-            </td>
-          </tr>
+        { state.map(item => <Event item={item} dispatch={dispatch} />)}
         </tbody>
       </table>
     </div>
