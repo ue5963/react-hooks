@@ -1,8 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 const App = props => {
   const [state, setState] = useState(props)
   const { name, price } = state
+
+  useEffect(() => {
+    console.log('--1-- This is like componentDidMount or componentDIdUpdate.')
+  })
+
+  useEffect(() => {
+    console.log('This is like componentDidMount. call one time')
+  }, [])
+
+  useEffect(() => {
+    console.log('This callback is for name only.')
+  }, [name])
 
   return (
     <>
@@ -22,7 +34,5 @@ App.defaultProps = {
   name: 'えんぴつ',
   price: 1000,
 }
-
-
 
 export default App
