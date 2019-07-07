@@ -64,7 +64,7 @@ const EventForm = props => {
         </div>
 
         <button className='btn btn-primary' onClick={addEvent} disabled={!title || !body}>イベント作成</button>
-        <button className='btn btn-danger' onClick={removeAllEvent} disabled={state.length === 0}>すべてのイベント削除</button>
+        <button className='btn btn-danger' onClick={removeAllEvent} disabled={state.events.length === 0}>すべてのイベント削除</button>
       </form>
     </>
   )

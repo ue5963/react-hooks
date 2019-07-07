@@ -7,7 +7,11 @@ import AppContext from '../contexts/AppContext'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, [])
+  const initialState = {
+    events: []
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
