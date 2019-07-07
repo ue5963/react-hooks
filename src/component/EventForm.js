@@ -54,6 +54,20 @@ const EventForm = props => {
     })
   }
 
+  const removeAllLogs = e => {
+    e.preventDefault()
+
+    const result = window.confirm('Are you really all logs delete?')
+
+    if (!result) {
+      return
+    }
+
+    dispatch({
+      type: DELETE_ALL_OPERATION_LOGS,
+    })
+  }
+
   const changeTitle = title => {
     setState({ ..._state, title })
   }
@@ -80,6 +94,7 @@ const EventForm = props => {
 
         <button className='btn btn-primary' onClick={addEvent} disabled={!title || !body}>イベント作成</button>
         <button className='btn btn-danger' onClick={removeAllEvent} disabled={state.events.length === 0}>すべてのイベント削除</button>
+        <button className='btn btn-danger' onClick={removeAllLogs} disabled={state.operationLogs.length === 0}>すべての操作ログを削除</button>
       </form>
     </>
   )
