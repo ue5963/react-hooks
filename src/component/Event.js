@@ -22,7 +22,6 @@ const Event = ({ item, dispatch }) => {
 
   return (
     <tr>
-      <td>{value}</td>
       <td>{item.id}</td>
       <td>{item.title}</td>
       <td>{item.body}</td>
