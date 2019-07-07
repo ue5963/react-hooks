@@ -1,4 +1,5 @@
 import React from 'react'
+import { DELETE_EVENT } from '../actions'
 
 const Event = ({ item, dispatch }) => {
 
@@ -11,7 +12,7 @@ const Event = ({ item, dispatch }) => {
     }
 
     dispatch({
-      type: 'DELETE_EVENT',
+      type: DELETE_EVENT,
       id
     })
   }
