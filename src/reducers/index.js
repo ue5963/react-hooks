@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
 import events from './events'
-import oparationLogs from './operationLogs'
+import operationLogs from './operationLogs'
 
 export default  combineReducers({
   events,
-  oparationLogs,
+  operationLogs,
 })

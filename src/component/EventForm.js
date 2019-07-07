@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react'
 import AppContext from '../contexts/AppContext'
+import { timeCurrentIso8601 } from '../utils'
 
 import {
-CREATE_EVENT,
-DELETE_ALL_EVENT,
+  CREATE_EVENT,
+  DELETE_ALL_EVENT,
+  ADD_OPERATION_LOG,
+  DELETE_ALL_OPERATION_LOGS,
 } from '../actions'
 
 const EventForm = props => {
@@ -22,6 +25,12 @@ const EventForm = props => {
       body,
     })
 
+    dispatch({
+      type: ADD_OPERATION_LOG,
+      description: 'Add event',
+      operateAt: timeCurrentIso8601(),
+    })
+
     // Clear input title, body
     setState({ title: '', body: '' })
   }
@@ -36,6 +45,12 @@ const EventForm = props => {
 
     dispatch({
       type: DELETE_ALL_EVENT,
+    })
+
+    dispatch({
+      type: ADD_OPERATION_LOG,
+      description: 'Delete all event',
+      operateAt: timeCurrentIso8601(),
     })
   }
 

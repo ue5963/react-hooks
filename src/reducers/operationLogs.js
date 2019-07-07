@@ -3,14 +3,14 @@ import {
   DELETE_ALL_OPERATION_LOGS,
 } from '../actions'
 
-const opatationLogs = (state = [], action) => {
+const operationLogs = (state = [], action) => {
   switch (action.type) {
     case ADD_OPERATION_LOG:
       const operationLog = {
         description: action.description,
         operateAt: action.operateAt,
       }
-      return [...operationLog, state]
+      return [operationLog, ...state]
     case DELETE_ALL_OPERATION_LOGS:
       return []
     default:
@@ -18,4 +18,4 @@ const opatationLogs = (state = [], action) => {
   }
 }
 
-export default opatationLogs
+export default operationLogs
