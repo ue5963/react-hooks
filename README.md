@@ -1,23 +1,21 @@
+# React Hooks sample
+
+React Hooks を使ったアプリケーションサンプル
+
+Hooksの機能をテストしています。
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
+### `yarn build`
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -29,40 +27,160 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## What React hooks
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This app is react hooks test
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### useState
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```js
+import React, { useState } from 'react'
 
-## Learn More
+const props <- initialProps is object or array or string
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const [state, setState] = useState(props)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+state is component state
+setState is change handler of state
+```
 
-### Code Splitting
+### useEffect
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```js
+import React, { useEffect } from 'react'
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+// Call everytime change state
+useEffect(() => {
+  console.log('This is like componentDidMount or componentDIdUpdate.')
+})
 
-### Making a Progressive Web App
+// Call one time like componentDidMount
+useEffect(() => {
+  console.log('This is like componentDidMount. call one time')
+}, [])
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+// Call to change name of state only
+useEffect(() => {
+  console.log('This callback is for name only.')
+}, [name])
 
-### Advanced Configuration
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## useReducer
 
-### Deployment
+```js
+import React, { useReducer } from 'react'
+import operationLogs from '../reducers/operationLogs' // reducer
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+// useContext を使ったコンポーネントでAPP全体をラップすることで、子は state, dispatchを伝搬させずに呼び出せる
+import AppContext from '../contexts/AppContext'
 
-### `npm run build` fails to minify
+// initial state
+const initialState = {
+  events: [],
+  operationLogs: [],
+}
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+// Output state and dispatch, reducer is only this component. 
+// useContext で子コンポーネントにstoreとdispatchを伝搬できる
+const [state, dispatch] = useReducer(operationLogs, initialState)
+
+return (
+  <AppContext.Provider value={{ state, dispatch }}>
+    <div className='container-fluid'>
+      <EventForm />
+      <Events />
+      <OperationLogs />
+    </div>
+  </AppContext.Provider>
+)
+```
+
+reducer for example
+
+src/reducers/operationLogs.js
+
+```js
+import {
+  ADD_OPERATION_LOG,
+  DELETE_ALL_OPERATION_LOGS,
+} from '../actions'
+
+const operationLogs = (state = [], action) => {
+  switch (action.type) {
+    case ADD_OPERATION_LOG:
+      const operationLog = {
+        description: action.description,
+        operateAt: action.operateAt,
+      }
+      return [operationLog, ...state]
+    case DELETE_ALL_OPERATION_LOGS:
+      return []
+    default:
+      return state
+  }
+}
+
+export default operationLogs
+```
+
+## useContext
+
+```js
+import React, { useContext } from 'react'
+import AppContext from '../contexts/AppContext'
+
+
+// この指定だけで親で指定した `<AppContext.Provider value={{ state, dispatch }}>` の state, dispatch を取得できる
+const { state, dispatch} = useContext(AppContext)
+```
+
+## Redux for combineReducer
+
+Reducer を１つのまとめることで、state, dispatch をそれぞれの Reducer へ引き渡すことができる
+
+src/reducers/index.js
+```js
+import { combineReducers } from 'redux'
+
+import events from './events'
+import operationLogs from './operationLogs'
+
+export default combineReducers({
+  events,
+  operationLogs,
+})
+```
+
+Use reducers
+
+```
+import reducer from '../reducers'
+
+
+const [state, dispatch] = useReducer(reducer, initialState)
+
+<AppContext.Provider value={{ state, dispatch }}>
+...
+</AppContext.Provider>
+```
+
+
+It is the contents that I took in this course.
+https://github.com/DiveIntoHacking/react-hooks-101
+
+Thank you.
+
+
+
+
+
+
+
+
+
+
+
+
+
