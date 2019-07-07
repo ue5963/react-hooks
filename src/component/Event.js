@@ -2,7 +2,9 @@ import React, { useContext } from 'react'
 import { DELETE_EVENT } from '../actions'
 import AppContext from '../contexts/AppContext'
 
-const Event = ({ item, dispatch }) => {
+const Event = ({ item }) => {
+
+  const { dispatch } = useContext(AppContext)
 
   const removeEvent = (e, id) => {
     e.preventDefault()
@@ -17,8 +19,6 @@ const Event = ({ item, dispatch }) => {
       id
     })
   }
-
-  const value = useContext(AppContext)
 
   return (
     <tr>

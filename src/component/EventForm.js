@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import AppContext from '../contexts/AppContext'
+
 import {
-  CREATE_EVENT,
-  DELETE_ALL_EVENT,
+CREATE_EVENT,
+DELETE_ALL_EVENT,
 } from '../actions'
 
 const EventForm = props => {
 
-  const { state, dispatch } = props
+  const { state, dispatch } = useContext(AppContext)
   const [_state, setState] = useState(props)
 
   const { title, body } = _state
