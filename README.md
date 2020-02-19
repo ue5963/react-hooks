@@ -60,6 +60,14 @@ useEffect(() => {
   console.log('This is like componentDidMount. call one time')
 }, [])
 
+// Call one time like componentWillUnmount
+useEffect(() => {
+  // useEffect 内で関数を return すると　componentWillUnmount　のタイミングで関数が実行される
+  return () => {
+    console.log('This is like componentWillUnmount. call one time')
+  }
+})
+
 // Call to change name of state only
 useEffect(() => {
   console.log('This callback is for name only.')
